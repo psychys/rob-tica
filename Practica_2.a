@@ -19,10 +19,11 @@ tiempo = 2000; % Tiempo en milisegundos que debe durar el programa
 while( (CurrentTick()-t_ini) <= tiempo)
     
     t = CurrentTick()-t_ini;
-    l = Sensor(IN_1); % Lee el sensor de luz
-    u = SensorUS(IN_2); % Lee el sonar
+    
     ra = MotorRotationCount(OUT_A); % Lee el encoder del motor izquierdo
     rc = MotorRotationCount(OUT_C); % Lee el encoder del motor derecho
+    l = Sensor(IN_1); % Lee el sensor de luz
+    u = SensorUS(IN_2); % Lee el sonar
     
     %TextOut(1,LCD_LINE1,strcat('Time: ',num2str(t)));
     %TextOut(1,LCD_LINE2,strcat('Light: ',num2str(l)));
@@ -33,8 +34,7 @@ while( (CurrentTick()-t_ini) <= tiempo)
     Wait(50); % Espera 50 ms para continuar, haciendo que este sea el periodo
               % de ejecucion del bucle
 end
-TextOut(1,LCD_LINE2,strcat('Light: ',num2str(l)));
-TextOut(1,LCD_LINE3,strcat('Dist: ',num2str(u)));
+
 Off(OUT_AC); % Detiene los motores
 TextOut(1,LCD_LINE7,'--The end--');
-Wait(3000);
+Wait(5000);
