@@ -1,4 +1,4 @@
-TextOut(0,LCD_LINE1,'-- Ejemplo de uso --');
+TextOut(0,LCD_LINE1,'-- Ejercicio 2a--');
 TextOut(0,LCD_LINE2,'Presione el boton central para');
 TextOut(0,LCD_LINE3,'comenzar con la prueba');
 while(~ButtonPressed(BTNCENTER))
@@ -24,10 +24,6 @@ while( (CurrentTick()-t_ini) <= tiempo)
     rc = MotorRotationCount(OUT_C); % Lee el encoder del motor derecho
     l = Sensor(IN_1); % Lee el sensor de luz
     u = SensorUS(IN_2); % Lee el sonar
-    
-    %TextOut(1,LCD_LINE1,strcat('Time: ',num2str(t)));
-    %TextOut(1,LCD_LINE2,strcat('Light: ',num2str(l)));
-    %TextOut(1,LCD_LINE3,strcat('Dist: ',num2str(u)));
     TextOut(1,LCD_LINE4,strcat('Deg A: ',num2str(ra)));
     TextOut(1,LCD_LINE5,strcat('Deg C: ',num2str(rc)));
     
