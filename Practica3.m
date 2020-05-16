@@ -9,9 +9,9 @@ end
 ClearScreen();
 % Definicion de constantes
 
-kp=0.8;
+kp=1;
 ki=0.8;
-kd=1;
+kd=0.8;
 
 BLANCO = 70;
 % parte blanca del circuito de granada = 79
