@@ -12,18 +12,16 @@ SetSensorUltrasonic(IN_2); % Inicial el sonar
 ResetRotationCount(OUT_A); % Establece a 0 los encoder de los dos motores
 ResetRotationCount(OUT_C); % A izquierda, C derecha
 
-OnFwd(OUT_AC,41); % Arranca ambos motores con potencia = 5
+OnFwd(OUT_AC,41); % Arranca ambos motores con potencia = 41
 
 tiempo = 2000; % Tiempo en milisegundos que debe durar el programa
 
-while( (CurrentTick()-t_ini) <= tiempo)
+while((CurrentTick()-t_ini) <= tiempo)
     
     t = CurrentTick()-t_ini;
     
     ra = MotorRotationCount(OUT_A); % Lee el encoder del motor izquierdo
     rc = MotorRotationCount(OUT_C); % Lee el encoder del motor derecho
-    l = Sensor(IN_1); % Lee el sensor de luz
-    u = SensorUS(IN_2); % Lee el sonar
     TextOut(1,LCD_LINE4,strcat('Deg A: ',num2str(ra)));
     TextOut(1,LCD_LINE5,strcat('Deg C: ',num2str(rc)));
     
