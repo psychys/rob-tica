@@ -11,20 +11,20 @@ SetSensorUltrasonic(IN_2); % Inicial el sonar
 ResetRotationCount(OUT_A); % Establece a 0 los encoder de los dos motores
 ResetRotationCount(OUT_C); % A izquierda, C derecha
 
+iteracionesMaximas = 3;
 potenciaActual = 10;
 tiempo = 5000; % Tiempo en milisegundos que debe durar el programa
 contador=0;
 objetivoRotaciones = 860;
-objRotActual = objetivoRotaciones;
-rot_A_Pot_m = 0.1074;
-rot_A_Pot_a = -0.9325;
+rot_A_Pot_m = 0.1074; % Pendiente "m" de la recta calculada (y=m*x+a) para pasar de rotaciones por segundo a potencia
+rot_A_Pot_a = -0.9325; % Variable "a" de la recta calculada (y=m*x+a) para pasar de rotaciones por segundo a potencia
 
-ColumnaPotencia = [];
-ColumnaDiffR = [];
-ColumnaRotObjetivo = [];
-ColumnaRotActual = [];
+Potencia = [];
+DiferenciaRotacion = [];
+RotacionObjetivo = [];
+RotacionActual = [];
 
-while(contador < 5)
+while(contador < iteracionesMaximas)
     t_ini = CurrentTick();     % Obtiene el tiempo de simulacion actual
     OnFwd(OUT_AC,potenciaActual);
     
@@ -46,19 +46,18 @@ while(contador < 5)
     
     Wait(500);
     
-    difRA = objRotActual-ra;
-    difRC = objRotActual-rc;
+    difRA = objetivoRotaciones-ra;    
+    difRC = objetivoRotaciones-rc;
     difR = (difRA + difRC)/2; % Va en linea recta en nuestro caso y por lo tanto difRA 
                               % difRC deberian ser iguales, pero en la simulacion puede 
                               % haber una pequeña diferencia entre ellas
-    difV = (difR/(tiempo/1000))*rot_A_Pot_m + rot_A_Pot_a; % Traduce la diferencia de rotaciones a diferencia de velocidad
+                              
+    Potencia = [Potencia ; potenciaActual];
+    DiferenciaRotacion = [DiferenciaRotacion ; difR];
+    RotacionObjetivo = [RotacionObjetivo ; objetivoRotaciones];
+    RotacionActual = [RotacionActual ; (ra+rc)/2];
     
-    ColumnaPotencia = [ColumnaPotencia ; potenciaActual];
-    ColumnaDiffR = [ColumnaDiffR ; difR];
-    ColumnaRotObjetivo = [ColumnaRotObjetivo ; objRotActual];
-    ColumnaRotActual = [ColumnaRotActual ; (ra+rc)/2];
-    
-    potenciaActual = potenciaActual+difV;
+    potenciaActual = (difR/(tiempo/1000))*rot_A_Pot_m + rot_A_Pot_a; % Traduce la diferencia de rotaciones a diferencia de velocidad
     
     if(potenciaActual<-100)
         potenciaActual = -100;
@@ -66,11 +65,10 @@ while(contador < 5)
         potenciaActual = 100;
     end
     
-    objRotActual = (ra+rc)/2 + objetivoRotaciones;
     contador=contador+1;
 end 
 
-T = table(ColumnaPotencia, ColumnaDiffR, ColumnaRotObjetivo, ColumnaRotActual)
+T = table(Potencia, DiferenciaRotacion, RotacionObjetivo, RotacionActual)
 
 Off(OUT_AC); % Detiene los motores
 TextOut(1,LCD_LINE7,'--The end--');
