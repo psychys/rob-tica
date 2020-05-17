@@ -12,6 +12,9 @@ ClearScreen();
 kp=1;
 ki=0.8;
 kd=0.8;
+integral=0;
+derivada=0;
+ultimo_error=0;
 
 BLANCO = 70;
 % parte blanca del circuito de granada = 79
@@ -46,6 +49,13 @@ while( (CurrentTick()-t_ini) <= tiempo)
     
     integral = integral + error_lectura;
     
-    turn = kp*error_lectura + ki*integral;
+    derivada = error_lectura-ultimo_error;
+    turn = kp*error_lectura + ki*integral + kd*derivada;
+    
+    
+    
+    
+    
+    ultimo_error=error_lectura;
     
 end
