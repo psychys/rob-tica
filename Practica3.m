@@ -7,14 +7,8 @@ while(~ButtonPressed(BTNCENTER))
     % Esperamos a que se pulse el boton central
 end 
 ClearScreen();
+
 % Definicion de constantes
-
-COLd = [];
-COLi = [];
-COLp = [];
-COLlectura_recta = [];
-COLturn = [];
-
 kp=0.65;
 ki=0.8;
 kd=0.8;
@@ -22,23 +16,24 @@ integral=0;
 derivada=0;
 ultimo_error=0;
 WINDUP = 20;
+potBase = 25;
 
 BLANCO = 70;
-% parte blanca del circuito de granada = 79
+% parte blanca del circuito de granada = 80
 blanco = 80;
 
 NEGRO = 35;
-%parte negra del circuito de granada = 8
+%parte negra del circuito de granada = 7
 negro =7;
 SetSensorLight(IN_1);   %Inicializa el sensor de luz
 t_ini = CurrentTick();     % Obtiene el tiempo de simulacion actual
-tiempo = 50000; % Tiempo en milisegundos que debe durar el programa
-potBase = 25;
+tiempo = 30000; % Tiempo en milisegundos que debe durar el programa
+
 
 while( (CurrentTick()-t_ini) <= tiempo)
     %Lector del sensor de luz
 
-    l = Sensor(IN_1) % Lee el sensor de luz
+    l = Sensor(IN_1); % Lee el sensor de luz
     TextOut(1,LCD_LINE2,strcat('Light: ',num2str(l))); % Muestra por pantalla lo que detecta el sensor de luz
     
     lectura_recta = (l*(BLANCO-NEGRO)/(blanco-negro))+((-negro*(BLANCO-NEGRO))+(NEGRO*(blanco-negro)))/(blanco-negro);
@@ -46,8 +41,6 @@ while( (CurrentTick()-t_ini) <= tiempo)
     error_lectura = lectura_recta - media_bn;
     
     % Fin del sensor de luz
-    
-        
     
     %Controlador PID
     
@@ -60,7 +53,6 @@ while( (CurrentTick()-t_ini) <= tiempo)
         turn = kp*error_lectura + kd*derivada;
         integral = integral - error_lectura;
     end
-    COLturn = [COLturn ; turn];
     
     potA = potBase + turn;
     potC = potBase - turn;
@@ -68,18 +60,9 @@ while( (CurrentTick()-t_ini) <= tiempo)
     OnFwd(OUT_A,potA);
     OnFwd(OUT_C,potC);
     
-    COLd = [COLd ; derivada];
-    COLi = [COLi ; integral];
-    COLp = [COLp ; error_lectura];
-    COLlectura_recta = [COLlectura_recta ; lectura_recta];
-    
-    
-    
     ultimo_error=error_lectura;
     
 end
-
-T = table(COLd,COLi,COLp,COLlectura_recta,COLturn)
 
 Off(OUT_AC); % Detiene los motores
 TextOut(1,LCD_LINE7,'--The end--');
