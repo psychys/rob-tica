@@ -36,5 +36,16 @@ while( (CurrentTick()-t_ini) <= tiempo)
     
     % Fin del sensor de luz
     
+        
+    
+    %Controlador PID
+    
+    G=kp+kd*s+(ki/s);
+    
+    % Parte integral
+    
+    integral = integral + error_lectura;
+    
+    turn = kp*error_lectura + ki*integral;
     
 end
