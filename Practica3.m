@@ -35,7 +35,7 @@ while( (CurrentTick()-t_ini) <= tiempo)
     
     lectura_recta = (l*(BLANCO-NEGRO)/(blanco-negro))+((-negro*(BLANCO-NEGRO))+(NEGRO*(blanco-negro)))/(blanco-negro);
     media_bn = BLANCO+NEGRO/2;
-    error_lectura = l - lectura_recta - media_bn; 
+    error_lectura = lectura_recta - media_bn; 
     
     % Fin del sensor de luz
     
