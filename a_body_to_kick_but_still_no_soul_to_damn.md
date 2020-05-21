@@ -1,5 +1,6 @@
 Introducción : tengo que afinarla más porque no estoy muy inspirado
 
+P.D.: Rafa sientete libre de modifiar CUALQUIER parte del documento, no soy demasiado habil con las palabras y muchas veces me falla la memoria a la hora de recordar bien cada parte, que no te de corte cambiar lo que yo he puesto.
 
 //////////////-------------------/////////////////-----------------///////////////////
 
