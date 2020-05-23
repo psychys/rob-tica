@@ -26,3 +26,13 @@ En un último caso en el que haya que debatir sobre la culpabilidad de una máqu
 
 
 //////////////-------------------/////////////////-----------------///////////////////
+
+Conclusión
+
+/////////////--------------------/////////////////-----------------///////////////////
+
+
+Tras haber planteado el panorama general que existe a la hora de buscar responsables por los actos realizados por las máquinas deducimos lo siguiente. El robot no va a ser culpable de los actos que cometa y, aunque se le declarase como tal, no hay forma de que compense por los daños ocasionados. Carece de moral como para reflexionar sobre lo que ha hecho y no tiene conciencia propia por lo que no tiene sentido que sea castigado. Los unicos culpables pueden ser o los fabricantes, o sus usuarios.
+
+
+/////////////-------------------///////////////////-------------------/////////////////
