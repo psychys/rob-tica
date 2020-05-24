@@ -32,7 +32,6 @@ Conclusión
 /////////////--------------------/////////////////-----------------///////////////////
 
 
-Tras haber planteado el panorama general que existe a la hora de buscar responsables por los actos realizados por las máquinas deducimos lo siguiente. El robot no va a ser culpable de los actos que cometa y, aunque se le declarase como tal, no hay forma de que compense por los daños ocasionados. Carece de moral como para reflexionar sobre lo que ha hecho y no tiene conciencia propia por lo que no tiene sentido que sea castigado. Los unicos culpables pueden ser o los fabricantes, o sus usuarios.
-
+Tras haber planteado el panorama general que existe actualmente a la hora de buscar responsables por los actos realizados por las máquinas, deducimos lo siguiente. El robot no va a ser culpable de los actos que cometa y, aunque se le declarase como tal, no hay forma de que compense por los daños ocasionados. Carece de moral como para reflexionar sobre lo que ha hecho y no tiene conciencia propia por lo que no tiene sentido que sea castigado. Los unicos culpables pueden ser o los fabricantes por el diseño o entrenamiento dado a su robot, o los usuarios usen o modifiquen el robot de forma que no estaba prevista. En un futuro, la cosa podría ser distinta y puede que llegue el momento de que haya robots que necesiten leyes y obligaciones que solo se les dan a las personas por ser humanos. Por este motivo, tenemos que ir planteandonos estas cuestiones para tenerlas resueltas lo mejor posible antes de que lleguemos a tener ese gran avance tecnológico, ya que el más mínimo error en como abordar los cuestiones que surjan, podría generar un gran problema para la humanidad.
 
 /////////////-------------------///////////////////-------------------/////////////////
