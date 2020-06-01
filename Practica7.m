@@ -1,4 +1,4 @@
-% Fichero de practica3
+% Fichero de practica7
 % Inicio del programa
 TextOut(0,LCD_LINE1,'-- Practica 7 --');
 TextOut(0,LCD_LINE2,'Presione el boton central para');
@@ -28,7 +28,7 @@ while( (CurrentTick()-t_ini) <= tiempo)
         TextOut(1,LCD_LINE2,strcat('Light: ',num2str(l))); % Muestra por pantalla lo que detecta el sensor de luz
         % Fin del sensor de luz
         
-        while((u<15)||(u>200))&&(l~=79)
+        while(u<15)&&(l~=79)
             bucle=1;
            Off(OUT_C); % Detiene el motor de la izuierda
            
@@ -36,6 +36,16 @@ while( (CurrentTick()-t_ini) <= tiempo)
            l = Sensor(IN_1); % Lee el sensor de luz
            u = SensorUS(IN_2); % Lee el sonar
         end
+        
+        while(u>200)&&(l~=79)
+            bucle=1;
+           Off(OUT_C); % Detiene el motor de la izuierda
+           
+           OnFwd(OUT_A,30);
+           l = Sensor(IN_1); % Lee el sensor de luz
+           u = SensorUS(IN_2); % Lee el sonar
+        end
+        
         if(bucle==1)
             bucle=0;
             Off(OUT_AC); % Detiene el motor de la izuierda
