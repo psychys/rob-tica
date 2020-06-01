@@ -13,7 +13,6 @@ SetSensorUltrasonic(IN_2); % Inicial el sonar
 SetSensorLight(IN_1);   %Inicializa el sensor de luz
 t_ini = CurrentTick();     % Obtiene el tiempo de simulacion actual
 tiempo = 120000; % Tiempo en milisegundos que debe durar el programa
-papelEncontrado = 0;
 OnFwd(OUT_A,randi(10));
 OnFwd(OUT_C,randi(10));
 bucle=0;
@@ -28,7 +27,7 @@ while( (CurrentTick()-t_ini) <= tiempo)
         TextOut(1,LCD_LINE2,strcat('Light: ',num2str(l))); % Muestra por pantalla lo que detecta el sensor de luz
         % Fin del sensor de luz
         
-        while(u<15)&&(l~=79)
+        while(u<20)&&(l~=79)
             bucle=1;
            Off(OUT_C); % Detiene el motor de la izuierda
            
@@ -47,21 +46,19 @@ while( (CurrentTick()-t_ini) <= tiempo)
         end
         
         if(bucle==1)
-            bucle=0;
-            Off(OUT_AC); % Detiene el motor de la izuierda
+            Off(OUT_AC); % Detiene el motor 
             OnFwd(OUT_A,randi(10));
             OnFwd(OUT_C,randi(10));
+            bucle=0;
         end
         if(l==79)
             Off(OUT_AC); % Detiene los motores 
-            papelEncontrado=1;
             TextOut(1,LCD_LINE1,'Papelito encontroado');
             TextOut(1,LCD_LINE2,'Pulse de nuevo para continuar');
             StatusLight(0,0);
             while(~ButtonPressed(BTNCENTER))
                 % Esperamos a que se pulse el boton central
             end
-            papelEncontrado = papelEncontrado+1;
             StatusLight(3,0);
             OnFwd(OUT_A,randi(10));
             OnFwd(OUT_C,randi(10));
