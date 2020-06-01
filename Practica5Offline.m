@@ -19,8 +19,9 @@ potGiroMotorC = 0;
 tiempo = 20000; % Tiempo en milisegundos que debe durar el programa
 t_ini = CurrentTick();
 tiempo_recta = 1500;
-tiempo_giro = 350; % Tiempo en milisegundos para hacer un giro de 90º aprox
-t_max = 0;
+tiempo_giro = 349; % Tiempo en milisegundos para hacer un giro de 90º aprox, 
+                   % ya que el robot al tener un periodo de 50 ms, no se
+                   % puede conseguir un giro perfecto de 90º
 
 boolGiroRecta = true; % true recta, false giro
 
@@ -35,7 +36,7 @@ theta0 = 0.0;
 rotl0 = 0.0;
 rotr0 = 0.0;
 t0 = 0.0;
-WriteLnString(manejador, sprintf('%u\t%u\t%u',rotl0, rotr0, t0), tamano);
+WriteLnString(manejador, sprintf('%0.0f\t%0.0f\t%0.0f',rotl0, rotr0, t0), tamano);
 
 while((CurrentTick()-t_ini) <= tiempo)
     
@@ -71,7 +72,7 @@ while((CurrentTick()-t_ini) <= tiempo)
         
         % Se escriben los valores actualizados de las rotaciones y el
         % tiempo
-        WriteLnString(manejador, sprintf('%u\t%u\t%u',ra, rc, t), tamano);
+        WriteLnString(manejador, sprintf('%0.0f\t%0.0f\t%0.0f',ra, rc, t), tamano);
     end
         
     % Se actualiza boolGiroRecta para que pase de hacer una recta a girar,
@@ -81,35 +82,9 @@ while((CurrentTick()-t_ini) <= tiempo)
     Wait(50); % Espera 50 ms para continuar, haciendo que este sea el 
               % periodo de ejecucion del bucle
 end
-CloseFile(manejador);
+
 Off(OUT_AC); % Detiene los motores
 TextOut(1,LCD_LINE7,'--The end--');
 Wait(3000);
 
-% Una vez terminado la parte del robot, se leera los datos guardados y se
-% calculará la odometria
-fichDatosOffline = fopen(fichero,'r');
-formatSpec = '%u\t%u\t%u';
-A = fscanf(fichDatosOffline,formatSpec, [3 inf]);
-fclose(fichDatosOffline);
-rotl = A(1,:);
-rotr = A(2,:);
-t = A(3,:);
-x = [x0];
-y = [y0];
-theta = [theta0];
-for i = 1:size(rotl,2)
-    [x0,y0,theta0] = odometry(x0,y0,theta0,t0,rotl0,rotr0,t(i),rotl(i),rotr(i)); 
-    rotl0 = rotl(i);
-    rotr0 = rotr(i);
-    t0 = t(i);
-    x = [x x0];
-    y = [y y0];
-    theta = [theta theta0];
-end
-u = x+cos(theta);
-v = y+sin(theta);
-hold on
-plot(x,y,':o');
-quiver(x,y,u,v,0.75);
-hold off
+CloseFile(manejador);

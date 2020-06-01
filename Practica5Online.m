@@ -19,7 +19,9 @@ potGiroMotorC = 0;
 tiempo = 20000; % Tiempo en milisegundos que debe durar el programa
 t_ini = CurrentTick();
 tiempo_recta = 1500;
-tiempo_giro = 350; % Tiempo en milisegundos para hacer un giro de 90º aprox
+tiempo_giro = 349; % Tiempo en milisegundos para hacer un giro de 90º aprox, 
+                   % ya que el robot al tener un periodo de 50 ms, no se
+                   % puede conseguir un giro perfecto de 90º
 
 boolGiroRecta = true; % true recta, false giro
 
@@ -34,7 +36,7 @@ theta0 = 0.0;
 rotl0 = 0.0;
 rotr0 = 0.0;
 t0 = 0.0;
-WriteLnString(manejador, sprintf('%u\t%u\t%u',rotl0, rotr0, t0), tamano);
+WriteLnString(manejador, sprintf('%0.0f\t%0.0f\t%0.0f',rotl0, rotr0, t0), tamano);
 
 x = [x0];
 y = [y0];
@@ -82,23 +84,29 @@ while((CurrentTick()-t_ini) <= tiempo)
         theta = [theta theta0];
         % Se escriben los valores actualizados de las rotaciones y el
         % tiempo
-        WriteLnString(manejador, sprintf('%u\t%u\t%u',rotl0, rotr0, t0), tamano);
+        WriteLnString(manejador, sprintf('%0.0f\t%0.0f\t%0.0f',rotl0, rotr0, t0), tamano);
     end
     
     % Se actualiza boolGiroRecta para que pase de hacer una recta a girar,
     % o viceversa
     boolGiroRecta = not(boolGiroRecta);
 end
-CloseFile(manejador);
+
 Off(OUT_AC); % Detiene los motores
 TextOut(1,LCD_LINE7,'--The end--');
 Wait(3000);
+
+CloseFile(manejador);
 
 % Calculo del vector direccion y representacion de la posicion y
 % orientacion del robot
 u = x+cos(theta);
 v = y+sin(theta);
 hold on
-plot(x,y,':o');
-quiver(x,y,u,v,0.75);
+plot(x,y,':o','DisplayName','Posicion del robot');
+quiver(x,y,u,v,0.75,'DisplayName','Orientacion');
+xlabel('x en metros');
+ylabel('y en metros');
 hold off
+lgd = legend;
+lgd.NumRows = 2;
