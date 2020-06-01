@@ -2,6 +2,8 @@
 
 Práctica 5 es solo el codigo del movimiento en cuadrado del robot
 
-Practica 5 versión online subida, tanto con odometría y escritura en archivo de las rotaciones realizadas y el momento en el que se leyó esos datos
+Practica 5 versión online subida
 
-Odometría subida, aunque no calcula bien las posiciones por ahora (POR ARREGLAR)
+Practica 5 versión offline subida
+
+Odometría arreglada
