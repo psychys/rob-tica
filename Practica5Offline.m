@@ -20,12 +20,13 @@ tiempo = 20000; % Tiempo en milisegundos que debe durar el programa
 t_ini = CurrentTick();
 tiempo_recta = 1500;
 tiempo_giro = 350; % Tiempo en milisegundos para hacer un giro de 90º aprox
+t_max = 0;
 
 boolGiroRecta = true; % true recta, false giro
 
 manejador = [];
 tamano = 50000;
-fichero = 'DatosOnline';
+fichero = 'DatosOffline';
 CreateFile(fichero, tamano, manejador);
 
 x0 = 0.0;
@@ -35,10 +36,6 @@ rotl0 = 0.0;
 rotr0 = 0.0;
 t0 = 0.0;
 WriteLnString(manejador, sprintf('%u\t%u\t%u',rotl0, rotr0, t0), tamano);
-
-x = [x0];
-y = [y0];
-theta = [theta0];
 
 while((CurrentTick()-t_ini) <= tiempo)
     
@@ -72,30 +69,44 @@ while((CurrentTick()-t_ini) <= tiempo)
         TextOut(1,LCD_LINE2,strcat('Deg A: ',num2str(ra)));
         TextOut(1,LCD_LINE3,strcat('Deg C: ',num2str(rc)));
         
-        % Se calcula la odometria y se actualizan los valores
-        [x0,y0,theta0] = odometry(x0,y0,theta0,t0,rotl0,rotr0,t,ra,rc); 
-        rotl0 = ra;
-        rotr0 = rc;
-        t0 = t;
-        x = [x x0];
-        y = [y y0];
-        theta = [theta theta0];
         % Se escriben los valores actualizados de las rotaciones y el
         % tiempo
-        WriteLnString(manejador, sprintf('%u\t%u\t%u',rotl0, rotr0, t0), tamano);
+        WriteLnString(manejador, sprintf('%u\t%u\t%u',ra, rc, t), tamano);
     end
-    
+        
     % Se actualiza boolGiroRecta para que pase de hacer una recta a girar,
     % o viceversa
     boolGiroRecta = not(boolGiroRecta);
+    
+    Wait(50); % Espera 50 ms para continuar, haciendo que este sea el 
+              % periodo de ejecucion del bucle
 end
 CloseFile(manejador);
 Off(OUT_AC); % Detiene los motores
 TextOut(1,LCD_LINE7,'--The end--');
 Wait(3000);
 
-% Calculo del vector direccion y representacion de la posicion y
-% orientacion del robot
+% Una vez terminado la parte del robot, se leera los datos guardados y se
+% calculará la odometria
+fichDatosOffline = fopen(fichero,'r');
+formatSpec = '%u\t%u\t%u';
+A = fscanf(fichDatosOffline,formatSpec, [3 inf]);
+fclose(fichDatosOffline);
+rotl = A(1,:);
+rotr = A(2,:);
+t = A(3,:);
+x = [x0];
+y = [y0];
+theta = [theta0];
+for i = 1:size(rotl,2)
+    [x0,y0,theta0] = odometry(x0,y0,theta0,t0,rotl0,rotr0,t(i),rotl(i),rotr(i)); 
+    rotl0 = rotl(i);
+    rotr0 = rotr(i);
+    t0 = t(i);
+    x = [x x0];
+    y = [y y0];
+    theta = [theta theta0];
+end
 u = x+cos(theta);
 v = y+sin(theta);
 hold on
